@@ -215,4 +215,5 @@ ENV/
 /site
 
 profiles_to_open.txt
+results.csv
 *.iml
