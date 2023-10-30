@@ -6,10 +6,14 @@
 
 
 Для запуска:
-1. создать файл `profiles_to_open.txt` с именами профилей ads browser, откуда хотим взять токены. В качестве примера
+1. создать файл `profiles_to_open.txt` с именами профилей ads browser ( каждая новая строка - новое имя профиля ), откуда хотим взять токены. В качестве примера
 см `profiles_to_open.txt.example`
 2. Установить зависимости
    1. на маке / линуксе `pip3 install selenium && pip3 install requests`
    2. на винде `pip install selenium ; pip install requests`
 3. Запустить скрипт `python3 main.py`
 4. Результат будет в файле `results.csv`
+
+**Обсудить / вопросы / пожелания**
+
+https://t.me/web3_toolkit
