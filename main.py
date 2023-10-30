@@ -91,14 +91,14 @@ def try_authenticate(driver, profile_id):
     try:
         connect_with_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'CONNECT WITH')]")
         if len(connect_with_button) > 0:
-            time.sleep(random.randint(1, 5))
+            time.sleep(random.randint(1, 3))
             connect_with_button[0].click()
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'MEMEPOINTS')]"))
             )
             time.sleep(2)
     except Exception:
-        print(f"Authentication failed for {profile_id} profile")
+        print(f"Could not authenticate {profile_id} profile")
 
 
 if __name__ == '__main__':
@@ -111,7 +111,7 @@ if __name__ == '__main__':
         driver = connect_to_profile(profile_id=profile_id)
         new_tab(driver, "https://www.memecoin.org/farming")
 
-        try_authenticate(driver, profile_id)
+        try_authenticate(driver, profile_name)
 
         profile_name_to_token[profile_name] = "Could not authenticate"
         if driver.find_elements(By.XPATH, "//*[contains(text(), 'MEMEPOINTS')]") == 0:
@@ -119,6 +119,7 @@ if __name__ == '__main__':
             continue
         logs = driver.get_log("performance")
         try:
+            log_message = f"Token not found for {profile_name} profile"
             for log in logs:
                 log_str = str(log)
                 if 'https://memefarm-api.memecoin.org/user/info' in log_str and "Bearer" in log_str:
@@ -126,7 +127,8 @@ if __name__ == '__main__':
                              .loads(log["message"])["message"]["params"]["request"]["headers"]["authorization"]
                              .replace("Bearer ", ""))
                     profile_name_to_token[profile_name] = token
-                    print(f"Successfully extracted token from {profile_name} profile")
+                    log_message = f"Successfully extracted token from {profile_name} profile"
+            print(log_message)
             driver.close()
             close_profile(profile_id)
             time.sleep(1)
